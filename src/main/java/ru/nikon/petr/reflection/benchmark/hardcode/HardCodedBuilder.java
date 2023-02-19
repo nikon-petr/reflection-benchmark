@@ -14,8 +14,11 @@ public class HardCodedBuilder extends SampleObjectBuilder {
         super();
 
         setters = new HashMap<>();
+        getters = new HashMap<>();
         setters.put("stringValue", (sampleObject, value) -> ((SampleObject) sampleObject).setStringValue((String) value));
+        getters.put("stringValue", (sampleObject) -> ((SampleObject) sampleObject).getStringValue());
         setters.put("intValue", (sampleObject, value) -> ((SampleObject) sampleObject).setIntValue((int) value));
+        getters.put("intValue", (sampleObject) -> ((SampleObject) sampleObject).getIntValue());
 
         constructor = SampleObject::new;
     }

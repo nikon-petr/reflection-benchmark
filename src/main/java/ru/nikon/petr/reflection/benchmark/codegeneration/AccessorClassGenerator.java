@@ -8,21 +8,20 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AccessorClassGenerator {
+public final class AccessorClassGenerator {
 
-    private Map<String, Class<?>> cache;
+    private final static Map<String, Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
 
     public AccessorClassGenerator() {
-        this.cache = new ConcurrentHashMap<>();
     }
 
     @SneakyThrows
-    public Supplier createConstructorLambda(Class<?> beanClass) {
+    public static Supplier createConstructorLambda(Class<?> beanClass) {
         var packageName = beanClass.getPackage().getName();
         var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), "init");
         var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
 
-        var accessorClass = cache.computeIfAbsent(fullClassName, key -> {
+        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
             var javaCode = """
                     package %s;
                                     
@@ -41,18 +40,18 @@ public class AccessorClassGenerator {
     }
 
     @SneakyThrows
-    public Function createGetterLambda(Class<?> beanClass, String getterName) {
+    public static Function createGetterLambda(Class<?> beanClass, String getterName) {
         var packageName = beanClass.getPackage().getName();
         var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), getterName);
         var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
 
-        var accessorClass = cache.computeIfAbsent(fullClassName, key -> {
+        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
             var javaCode = """
                     package %s;
                                     
                     public class %s implements %s {
                         public Object apply(Object bean) {
-                            return ((%s) bean).%s(value));
+                            return ((%s) bean).%s();
                         }
                     }
                     """;
@@ -65,12 +64,12 @@ public class AccessorClassGenerator {
     }
 
     @SneakyThrows
-    public BiConsumer createSetterLambda(Class<?> beanClass, String setterName, Class<?> setterParamType) {
+    public static BiConsumer createSetterLambda(Class<?> beanClass, String setterName, Class<?> setterParamType) {
         var packageName = beanClass.getPackage().getName();
         var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), setterName);
         var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
 
-        var accessorClass = cache.computeIfAbsent(fullClassName, key -> {
+        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
             var setterType = setterParamType.getName();
 
             var javaCode = """

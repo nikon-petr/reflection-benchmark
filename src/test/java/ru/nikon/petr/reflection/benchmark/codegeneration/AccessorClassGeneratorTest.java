@@ -11,7 +11,7 @@ class AccessorClassGeneratorTest {
 
     @Test
     void testGetter() {
-        var setter = AccessorClassGenerator.createSetterLambda(SampleObject.class, "setStringValue");
+        var setter = AccessorClassGenerator.createSetterLambda(SampleObject.class, "setStringValue", String.class);
 
         var obj = new SampleObject();
         var expectedValue = "test";

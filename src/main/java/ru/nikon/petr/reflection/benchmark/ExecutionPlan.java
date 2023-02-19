@@ -7,13 +7,10 @@ import java.util.Map;
 @State(Scope.Benchmark)
 public class ExecutionPlan {
 
-    @Param({"100", "100000"})
-    public int iterations;
-
     public SampleObjectBuilder builder;
 
-    public Map<String, Object> values = Map.of("stringValue", "str", "intValue", 100);
+    public Map<String, Object> values = Map.of("stringValue", "test_string", "intValue", 1_000_000);
 
-    @Setup(Level.Iteration)
+    @Setup(Level.Trial)
     public void setUp() { }
 }

@@ -14,8 +14,11 @@ public class LambdaBuilder extends SampleObjectBuilder {
         super();
 
         setters = new HashMap<>();
+        getters = new HashMap<>();
         setters.put("stringValue", LambdaMetafactoryUtils.createSetterLambda(SampleObject.class, "setStringValue", String.class));
+        getters.put("stringValue", LambdaMetafactoryUtils.createGetterLambda(SampleObject.class, "getStringValue", String.class));
         setters.put("intValue", LambdaMetafactoryUtils.createSetterLambda(SampleObject.class, "setIntValue", int.class));
+        getters.put("intValue", LambdaMetafactoryUtils.createGetterLambda(SampleObject.class, "getIntValue", int.class));
 
         constructor = LambdaMetafactoryUtils.createConstructorLambda(SampleObject.class);
     }
