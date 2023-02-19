@@ -1,4 +1,4 @@
-### Results 
+### Results (OpenJDK 17.0.2)
 ```
 Benchmark                              Mode  Cnt   Score   Error  Units
 BenchmarkRunner._1_code_generation     avgt   25  17.762 ± 0.337  ns/op
