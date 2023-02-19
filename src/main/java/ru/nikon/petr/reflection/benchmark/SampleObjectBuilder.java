@@ -14,11 +14,11 @@ public abstract class SampleObjectBuilder {
     protected Supplier constructor;
 
     public SampleObject build(Map<String, Object> values) {
-        var sampleObject = constructor.get();
+        Object sampleObject = constructor.get();
 
-        for (var e : values.entrySet()) {
-            var fieldName = e.getKey();
-            var fieldValue = e.getValue();
+        for (Map.Entry<String, Object> e : values.entrySet()) {
+            String fieldName = e.getKey();
+            Object fieldValue = e.getValue();
             setters.get(fieldName).accept(sampleObject, fieldValue);
         }
 

@@ -17,22 +17,20 @@ public final class AccessorClassGenerator {
 
     @SneakyThrows
     public static Supplier createConstructorLambda(Class<?> beanClass) {
-        var packageName = beanClass.getPackage().getName();
-        var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), "init");
-        var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
+        String packageName = beanClass.getPackage().getName();
+        String simpleClassName = String.format("%s$%s", beanClass.getSimpleName(), "init");
+        String fullClassName = String.format("%s.%s", packageName, simpleClassName);
 
-        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
-            var javaCode = """
-                    package %s;
-                                    
-                    public class %s implements %s {
-                        public Object get() {
-                            return new %s();
-                        }
-                    }
-                    """;
+        Class<?> accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
+            String javaCode = "package %s;\n" +
+                    "\n" +
+                    "public class %s implements %s {\n" +
+                    "    public Object get() {\n" +
+                    "        return new %s();\n" +
+                    "    }\n" +
+                    "}\n";
 
-            javaCode = javaCode.formatted(packageName, simpleClassName, Supplier.class.getName(), beanClass.getName());
+            javaCode = String.format(javaCode, packageName, simpleClassName, Supplier.class.getName(), beanClass.getName());
             return CodeGenerationUtils.load(fullClassName, javaCode);
         });
 
@@ -41,22 +39,20 @@ public final class AccessorClassGenerator {
 
     @SneakyThrows
     public static Function createGetterLambda(Class<?> beanClass, String getterName) {
-        var packageName = beanClass.getPackage().getName();
-        var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), getterName);
-        var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
+        String packageName = beanClass.getPackage().getName();
+        String simpleClassName = String.format("%s$%s", beanClass.getSimpleName(), getterName);
+        String fullClassName = String.format("%s.%s", packageName, simpleClassName);
 
-        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
-            var javaCode = """
-                    package %s;
-                                    
-                    public class %s implements %s {
-                        public Object apply(Object bean) {
-                            return ((%s) bean).%s();
-                        }
-                    }
-                    """;
+        Class<?> accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
+            String javaCode = "package %s;\n" +
+                    "\n" +
+                    "public class %s implements %s {\n" +
+                    "    public Object apply(Object bean) {\n" +
+                    "        return ((%s) bean).%s();\n" +
+                    "    }\n" +
+                    "}\n";
 
-            javaCode = javaCode.formatted(packageName, simpleClassName, Function.class.getName(), beanClass.getName(), getterName);
+            javaCode = String.format(javaCode, packageName, simpleClassName, Function.class.getName(), beanClass.getName(), getterName);
             return CodeGenerationUtils.load(fullClassName, javaCode);
         });
 
@@ -65,24 +61,22 @@ public final class AccessorClassGenerator {
 
     @SneakyThrows
     public static BiConsumer createSetterLambda(Class<?> beanClass, String setterName, Class<?> setterParamType) {
-        var packageName = beanClass.getPackage().getName();
-        var simpleClassName = "%s$%s".formatted(beanClass.getSimpleName(), setterName);
-        var fullClassName = "%s.%s".formatted(packageName, simpleClassName);
+        String packageName = beanClass.getPackage().getName();
+        String simpleClassName = String.format("%s$%s", beanClass.getSimpleName(), setterName);
+        String fullClassName = String.format("%s.%s", packageName, simpleClassName);
 
-        var accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
-            var setterType = setterParamType.getName();
+        Class<?> accessorClass = CLASS_CACHE.computeIfAbsent(fullClassName, key -> {
+            String setterType = setterParamType.getName();
 
-            var javaCode = """
-                package %s;
-                
-                public class %s implements %s {
-                    public void accept(Object bean, Object value) {
-                        ((%s) bean).%s((%s) value);
-                    }
-                }
-                """;
+            String javaCode = "package %s;\n" +
+                    "\n" +
+                    "public class %s implements %s {\n" +
+                    "    public void accept(Object bean, Object value) {\n" +
+                    "        ((%s) bean).%s((%s) value);\n" +
+                    "    }\n" +
+                    "}\n";
 
-            javaCode = javaCode.formatted(packageName, simpleClassName,  BiConsumer.class.getName(),  beanClass.getName(), setterName, setterType);
+            javaCode = String.format(javaCode, packageName, simpleClassName,  BiConsumer.class.getName(),  beanClass.getName(), setterName, setterType);
             return CodeGenerationUtils.load(fullClassName, javaCode);
         });
 

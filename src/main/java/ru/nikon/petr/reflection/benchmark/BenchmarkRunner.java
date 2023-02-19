@@ -8,6 +8,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
+import ru.nikon.petr.reflection.benchmark.pojo.SampleObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,7 @@ public class BenchmarkRunner {
 
     @Benchmark
     public void _2_hard_code(HardCodedBuilderExecutionPlan executionPlan, Blackhole blackhole) {
-        var sampleObject = executionPlan.builder.build(executionPlan.values);
+        SampleObject sampleObject = executionPlan.builder.build(executionPlan.values);
         blackhole.consume(sampleObject.getStringValue());
         blackhole.consume(sampleObject.getIntValue());
         blackhole.consume(sampleObject);
@@ -32,7 +33,7 @@ public class BenchmarkRunner {
 
     @Benchmark
     public void _3_lambda_metafactory(LambdaMetafactoryBuilderExecutionPlan executionPlan, Blackhole blackhole) {
-        var sampleObject = executionPlan.builder.build(executionPlan.values);
+        SampleObject sampleObject = executionPlan.builder.build(executionPlan.values);
         blackhole.consume(sampleObject.getStringValue());
         blackhole.consume(sampleObject.getIntValue());
         blackhole.consume(sampleObject);
@@ -40,7 +41,7 @@ public class BenchmarkRunner {
 
     @Benchmark
     public void _1_code_generation(CodeGenerationExecutionPlan executionPlan, Blackhole blackhole) {
-        var sampleObject = executionPlan.builder.build(executionPlan.values);
+        SampleObject sampleObject = executionPlan.builder.build(executionPlan.values);
         blackhole.consume(sampleObject.getStringValue());
         blackhole.consume(sampleObject.getIntValue());
         blackhole.consume(sampleObject);

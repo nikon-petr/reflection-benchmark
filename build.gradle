@@ -10,10 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.openjdk.jmh:jmh-core:1.35'
-    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.35'
-
-    implementation 'net.openhft:compiler:2.23ea0'
+    implementation 'org.openjdk.jmh:jmh-core:1.11.2'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.11.2'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -37,4 +35,7 @@ sourceSets {
 clean.doFirst {
     delete "${rootDir}build/generated/sources/accessors"
 }
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
