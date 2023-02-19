@@ -7,7 +7,7 @@ import java.util.Map;
 @State(Scope.Benchmark)
 public class ExecutionPlan {
 
-    @Param({"100", "1000", "100000"})
+    @Param({"100", "100000"})
     public int iterations;
 
     public SampleObjectBuilder builder;

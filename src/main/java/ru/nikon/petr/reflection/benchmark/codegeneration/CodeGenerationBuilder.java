@@ -10,10 +10,12 @@ public class CodeGenerationBuilder extends SampleObjectBuilder {
     public CodeGenerationBuilder() {
         super();
 
-        setters = new HashMap<>();
-        setters.put("stringValue", (sampleObject, value) -> AccessorClassGenerator.createSetterLambda(SampleObject.class, "setStringValue"));
-        setters.put("intValue", (sampleObject, value) -> AccessorClassGenerator.createSetterLambda(SampleObject.class, "setIntValue"));
+        var accessorClassGenerator = new AccessorClassGenerator();
 
-        constructor = AccessorClassGenerator.createConstructorLambda(SampleObject.class);
+        setters = new HashMap<>();
+        setters.put("stringValue", accessorClassGenerator.createSetterLambda(SampleObject.class, "setStringValue", String.class));
+        setters.put("intValue", accessorClassGenerator.createSetterLambda(SampleObject.class, "setIntValue", int.class));
+
+        constructor = accessorClassGenerator.createConstructorLambda(SampleObject.class);
     }
 }

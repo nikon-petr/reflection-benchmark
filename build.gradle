@@ -27,3 +27,13 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+sourceSets {
+    main {
+        java.srcDirs += "${rootDir}build/generated/sources/accessors/java/main"
+    }
+}
+
+clean.doFirst {
+    delete "${rootDir}build/generated/sources/accessors"
+}
